@@ -1,0 +1,55 @@
+# Python files
+*.pyc
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.coverage
+
+# Virtual environment
+venv/
+env/
+
+# Test files
+*.test.py
+*.test.ts
+test_*.py
+test_*.ts
+
+# IDE specific files
+.idea/
+*.iml
+.vscode/
+*.suo
+*.user
+*.sln
+*.pdb
+*.log
+
+# Build output
+dist/
+build/
+
+# Database files
+db.sqlite3
+*.db
+
+# Local configuration files
+local_settings.py
+local_settings.ts
+
+# Logs and temporary files
+logs/
+tmp/
+
+# Package managers
+node_modules/
+yarn.lock
+package-lock.json
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# OS specific files
+.DS_Store
+Thumbs.db
