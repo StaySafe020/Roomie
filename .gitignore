@@ -53,3 +53,7 @@ package-lock.json
 # OS specific files
 .DS_Store
 Thumbs.db
+
+# Ignore SSL certificate and key files
+key.pem
+cert.pem

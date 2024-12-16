@@ -16,7 +16,39 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+from Roomieapp.views import UserRegistrationView, UserLoginView
+from rest_framework import routers
+from drf_yasg import openapi
+from drf_yasg.views import schema_view
+from rest_framework import permissions
+
+# Create a router and register your ViewSet with it
+
+
+
+schema_view = schema_view(
+    openapi.Info(
+        title="user api",
+        default_version='v1',
+        description="API documentation for my project",
+        terms_of_service="https://www.yourterms.com/",
+        contact=openapi.Contact(email="jambongralpher@gmail.com"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=[permissions.isAuthenticatedOrReadOnly],
+)
+router = routers.DefaultRouter()
+router.register(r'register', UserRegistrationView, basename='user-registration')
+router.register('users/login', UserLoginView, basename='login')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include(router.urls)),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # path('sample/', SampleView.as_view(), name='sample_view'),
+    #path('roomie_rental_platform/login/', UserLoginView.as_view(), name='login'),
+
 ]

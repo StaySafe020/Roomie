@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2y=4qak4-s3uhp!n^r9#tr%j($i3(8@flbd5&fji4&68+a(^n%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'sslserver',
+    'drf_yasg',
+    'rest_framework',
     'Roomieapp',
 ]
 
@@ -50,7 +53,20 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# HTTPS Configuration
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000 
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'Roomieapp.utils.custom_exception_handler',
+}
+
 ROOT_URLCONF = 'roomie_rental_platform.urls'
+
+SECURE_SSL_REDIRECT = True
 
 TEMPLATES = [
     {
