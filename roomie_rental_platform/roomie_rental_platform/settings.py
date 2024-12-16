@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Roomieapp',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +73,8 @@ WSGI_APPLICATION = 'roomie_rental_platform.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 DATABASES = {
     'default': {

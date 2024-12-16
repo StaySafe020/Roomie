@@ -7,7 +7,7 @@ __pycache__/
 
 # Virtual environment
 venv/
-env/
+my_env/
 
 # Test files
 *.test.py
