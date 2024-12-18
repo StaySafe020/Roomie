@@ -1,14 +1,15 @@
+# serializers.py
+
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from .models import Property
+from .models import User, Property
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User
+        model = User  # Use your custom User model
         fields = ('id', 'username', 'email', 'password', 'usertype')
-        read_only_fields = ('id', 'username')
+        read_only_fields = ('id',)
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -28,21 +29,24 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
 class PropertySerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
         fields = ('id', 'title', 'description', 'images', 'number_of_rooms', 'amenities', 'price', 'location', 'available_status', 'landlord')
-        read_only_fields = ('id','available_status','price')
+        read_only_fields = ('id', 'available_status', 'price')
 
-        class UserRegistrationSerializer(serializers.ModelSerializer):
-         password = serializers.CharField(write_only=True)
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'user_type', 'password')
+        model = User  # Use your custom User model
+        fields = ('id', 'username', 'email', 'usertype', 'password')
         extra_kwargs = {'password': {'write_only': True}}  # Hide password in response
+
 
 class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = User  # Use your custom User model
         fields = ('username', 'password')
