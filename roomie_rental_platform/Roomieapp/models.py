@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import User 
+from .models import User
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email, username, password=None, usertype='tenant', **extra_fields):
@@ -16,7 +19,7 @@ class UserManager(BaseUserManager):
         """Create and return a superuser with an email, username, and password."""
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('usertype', 'landlord')  # Default for superuser
+        extra_fields.setdefault('usertype', 'landlord')
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
@@ -61,3 +64,13 @@ class Property(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username

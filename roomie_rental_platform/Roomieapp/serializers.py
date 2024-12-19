@@ -1,7 +1,14 @@
-# serializers.py
+from .models import User, Property, UserProfile
 
 from rest_framework import serializers
 from .models import User, Property
+
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['id', 'user', 'bio', 'profile_picture']
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)

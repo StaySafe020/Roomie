@@ -22,6 +22,7 @@ from rest_framework import routers
 from drf_yasg import openapi
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
+from Roomieapp.views import UserProfileCreateView, UserProfileDetailView
 #rom rest_framework import urlpatterns
 
 # Create a router and register your ViewSet with it
@@ -51,4 +52,9 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/register/', UserRegistrationView.as_view({'post': 'create'}), name='user-registration'),
     path('api/login/', UserLoginView.as_view({'post': 'create'}), name='user-login'),
+     path('users/register/', UserRegistrationView.as_view({'post': 'create'}), name='user-register'),
+    path('users/login/', UserLoginView.as_view({'post': 'create'}), name='user-login'),
+     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+     path('profiles/', UserProfileCreateView.as_view(), name='create-profile'),  # POST
+    path('profiles/<int:pk>/', UserProfileDetailView.as_view(), name='profile-detail')
 ]
