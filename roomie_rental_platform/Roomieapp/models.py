@@ -42,7 +42,7 @@ class User(AbstractUser):
     is_active = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']  # Ensure username must be provided when creating a user
+    REQUIRED_FIELDS = ['username']  
 
     objects = UserManager()
 
@@ -61,6 +61,8 @@ class Property(models.Model):
     location = models.CharField(max_length=225)
     available_status = models.BooleanField(default=True)
     landlord = models.ForeignKey(User, on_delete=models.CASCADE, related_name='properties')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
@@ -74,3 +76,4 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+    

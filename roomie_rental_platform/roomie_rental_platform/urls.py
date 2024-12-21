@@ -1,60 +1,39 @@
-"""
-URL configuration for roomie_rental_platform project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from Roomieapp.views import UserRegistrationView, UserLoginView
-from rest_framework import routers
+from Roomieapp.views import (
+    UserRegistrationView,
+    UserLoginView,
+    UserProfileViewSet,
+    PropertyListCreateView,
+    PropertyDetailView,
+)
 from drf_yasg import openapi
-from rest_framework import permissions
 from drf_yasg.views import get_schema_view
-from Roomieapp.views import UserProfileCreateView, UserProfileDetailView
-#rom rest_framework import urlpatterns
 
-# Create a router and register your ViewSet with it
-
-
-
+# Schema view for API documentation
 schema_view = get_schema_view(
     openapi.Info(
-        title="User API",  # Capitalized for title conventions
+        title="User API",
         default_version='v1',
         description="API documentation for my project",
-        terms_of_service="https://www.yourterms.com/",
-        contact=openapi.Contact(email="jambongralpher@gmail.com"),
-        license=openapi.License(name="BSD License"),
+        contact=openapi.Contact(email="your_email@example.com"),
     ),
-    public=True,  # Ensure this is set to True if you want public access to the schema
+    public=True,
 )
-permission_classes=[permissions.IsAuthenticatedOrReadOnly],
 
+# Create a router and register your ViewSets
 router = routers.DefaultRouter()
-router.register(r'register', UserRegistrationView, basename='user-registration')
-router.register('users/login', UserLoginView, basename='login')
+router.register(r'profiles', UserProfileViewSet, basename='userprofile')
+router.register(r'properties', PropertyListCreateView, basename='property')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
+    path('', include(router.urls)),  # Include all registered routes from the router
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('api/register/', UserRegistrationView.as_view({'post': 'create'}), name='user-registration'),
-    path('api/login/', UserLoginView.as_view({'post': 'create'}), name='user-login'),
-     path('users/register/', UserRegistrationView.as_view({'post': 'create'}), name='user-register'),
-    path('users/login/', UserLoginView.as_view({'post': 'create'}), name='user-login'),
-     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-     path('profiles/', UserProfileCreateView.as_view(), name='create-profile'),  # POST
-    path('profiles/<int:pk>/', UserProfileDetailView.as_view(), name='profile-detail')
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
+    # User Registration and Login using class-based views
+    path('api/register/', UserRegistrationView.as_view(), name='user-registration'),
+    path('api/login/', UserLoginView.as_view(), name='user-login'),
 ]

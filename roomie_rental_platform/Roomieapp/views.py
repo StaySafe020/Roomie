@@ -1,16 +1,13 @@
-from django.shortcuts import render
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, generics
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, login
-from .serializers import UserLoginSerializer, UserSerializer
-from .models import User  # Import the User model
-from .exceptions import CustomAPIException
+from .serializers import UserLoginSerializer, UserSerializer, UserProfileSerializer, PropertySerializer
+from .models import User, UserProfile, Property
 from rest_framework import permissions
-from .models import UserProfile 
-from .serializers import UserProfileSerializer
-from rest_framework import generics
+
+
 # Custom permission class
 class IsAuthenticatedOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
@@ -19,24 +16,22 @@ class IsAuthenticatedOrReadOnly(permissions.BasePermission):
         return request.user and request.user.is_authenticated
 
 # User Registration View
-class UserRegistrationView(viewsets.ModelViewSet):
+class UserRegistrationView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.AllowAny] 
+
+    def perform_create(self, serializer):
+        user = serializer.save()
+        login(self.request, user)
+        Token.objects.get_or_create(user=user)
+
+# User Login View
+class UserLoginView(generics.CreateAPIView):
+    serializer_class = UserLoginSerializer
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            login(request, user)
-            token, _ = Token.objects.get_or_create(user=user)
-            return Response({'token': token.key}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# User Login View
-class UserLoginView(viewsets.ViewSet):
-    def create(self, request):
-        serializer = UserLoginSerializer(data=request.data)
         if serializer.is_valid():
             username = serializer.validated_data['username']
             password = serializer.validated_data['password']
@@ -44,20 +39,25 @@ class UserLoginView(viewsets.ViewSet):
             if user is not None:
                 login(request, user)
                 return Response({'message': 'Login successful'}, status=status.HTTP_200_OK)
-            else:
-                return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
 
- 
-
-# Retrieve and update user profile
-class UserProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
+# User Profile ViewSet
+class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
-# Create a new user profile
-class UserProfileCreateView(generics.CreateAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+# Property List and Create ViewSet
+class PropertyListCreateView(viewsets.ModelViewSet):
+    queryset = Property.objects.all()
+    serializer_class = PropertySerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+# Retrieve, update, and delete a specific property
+class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Property.objects.all()
+    serializer_class = PropertySerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+  

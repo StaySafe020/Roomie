@@ -48,12 +48,19 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User  # Use your custom User model
+        model = User  
         fields = ('id', 'username', 'email', 'usertype', 'password')
         extra_kwargs = {'password': {'write_only': True}}  # Hide password in response
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User  # Use your custom User model
+        model = User  
         fields = ('username', 'password')
+
+
+#API endpoints for property listing, creation, and updating
+        class PropertySerializer(serializers.ModelSerializer):
+           class Meta:
+            model = Property
+        fields = ['id', 'title', 'description', 'price', 'created_at', 'updated_at']
