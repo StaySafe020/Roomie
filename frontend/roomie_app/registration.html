@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roomie - Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .signup-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .signup-header h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 40px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(102,126,234,0.2);
+        }
+
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            border-radius: 3px;
+            background: #ddd;
+        }
+
+        .terms {
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terms input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        .signup-btn {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .signup-btn:hover {
+            background: #764ba2;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        @media (max-width: 480px) {
+            .signup-container {
+                padding: 1.5rem;
+            }
+        }
+
+        .role-selector {
+            display: flex;
+            gap: 0;
+            margin-bottom: 2rem;
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 0.5rem;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: none;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .role-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .role-fields {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .role-fields.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-header">
+            <h1>Create Account</h1>
+            <p>Join Roomie to find your perfect home</p>
+        </div>
+        
+        <form id="signupForm">
+            <!-- Role Selector -->
+            <div class="role-selector">
+                <button type="button" class="role-btn active" data-role="tenant">
+                    <i class="fas fa-user"></i> Register as Tenant
+                </button>
+                <button type="button" class="role-btn" data-role="landlord">
+                    <i class="fas fa-home"></i> Register as Landlord
+                </button>
+            </div>
+
+            <!-- Common Fields -->
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Full Name" required>
+            </div>
+            
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Email Address" required>
+            </div>
+
+            <!-- Tenant Specific Fields -->
+            <div class="role-fields tenant-fields show">
+                <div class="input-group">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" placeholder="Preferred Location" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" placeholder="Phone Number" required>
+                </div>
+            </div>
+
+            <!-- Landlord Specific Fields -->
+            <div class="role-fields landlord-fields">
+                <div class="input-group">
+                    <i class="fas fa-building"></i>
+                    <input type="text" placeholder="Company Name (optional)">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" placeholder="Business Phone" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-address-card"></i>
+                    <input type="text" placeholder="Business Address" required>
+                </div>
+            </div>
+
+            <!-- Password Fields -->
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" required>
+                <div class="password-strength"></div>
+            </div>
+            
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Confirm Password" required>
+            </div>
+            
+            <div class="terms">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">I agree to the Terms and Conditions</label>
+            </div>
+            
+            <button type="submit" class="signup-btn">Create Account</button>
+            
+            <div class="login-link">
+                Already have an account? <a href="login.html">Login here</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const role = document.querySelector('.role-btn.active').dataset.role;
+            console.log(`Registering as ${role}`);
+            // Add registration logic here
+        });
+
+        // Basic password strength indicator
+        const passwordInput = document.querySelector('input[type="password"]');
+        const strengthIndicator = document.querySelector('.password-strength');
+
+        passwordInput.addEventListener('input', function() {
+            const strength = this.value.length;
+            if (strength === 0) {
+                strengthIndicator.style.background = '#ddd';
+            } else if (strength < 6) {
+                strengthIndicator.style.background = '#ff4444';
+            } else if (strength < 10) {
+                strengthIndicator.style.background = '#ffa700';
+            } else {
+                strengthIndicator.style.background = '#00c851';
+            }
+        });
+
+        const roleButtons = document.querySelectorAll('.role-btn');
+        const tenantFields = document.querySelector('.tenant-fields');
+        const landlordFields = document.querySelector('.landlord-fields');
+
+        roleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                roleButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                if (button.dataset.role === 'tenant') {
+                    tenantFields.classList.add('show');
+                    landlordFields.classList.remove('show');
+                } else {
+                    landlordFields.classList.add('show');
+                    tenantFields.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
