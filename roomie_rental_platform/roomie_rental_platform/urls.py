@@ -11,6 +11,8 @@ from Roomieapp.views import (
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
+from Roomieapp import views
+from Roomieapp.views import PropertyDetailViewSet, InquiryViewSet
 # Schema view for API documentation
 schema_view = get_schema_view(
     openapi.Info(
@@ -26,6 +28,7 @@ schema_view = get_schema_view(
 router = routers.DefaultRouter()
 router.register(r'profiles', UserProfileViewSet, basename='userprofile')
 router.register(r'properties', PropertyListCreateView, basename='property')
+router.register(r'inquiries', InquiryViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,4 +39,5 @@ urlpatterns = [
     # User Registration and Login using class-based views
     path('api/register/', UserRegistrationView.as_view(), name='user-registration'),
     path('api/login/', UserLoginView.as_view(), name='user-login'),
+    
 ]

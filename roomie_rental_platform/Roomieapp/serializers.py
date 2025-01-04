@@ -1,7 +1,7 @@
 from .models import User, Property, UserProfile
 
 from rest_framework import serializers
-from .models import User, Property
+from .models import User, Property, Inquiry
 
 
 
@@ -64,3 +64,10 @@ class UserLoginSerializer(serializers.ModelSerializer):
            class Meta:
             model = Property
         fields = ['id', 'title', 'description', 'price', 'created_at', 'updated_at']
+
+
+        class InquirySerializer(serializers.ModelSerializer):
+         class Meta:
+          model = Inquiry
+        fields = ['id', 'property', 'message', 'created_at']
+        read_only_fields = ['user']

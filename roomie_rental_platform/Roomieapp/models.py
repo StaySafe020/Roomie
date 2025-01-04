@@ -77,3 +77,13 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
     
+
+    class Inquiry(models.Model):
+        user = models.ForeignKey('User', on_delete=models.CASCADE)
+        property = models.ForeignKey('Property', on_delete=models.CASCADE)
+        message = models.TextField()
+        created_at = models.DateTimeField(auto_now_add=True)
+    
+        def __str__(self):
+            return f"Inquiry from {self.user.email} for {self.property.title}"
+    
