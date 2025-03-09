@@ -1,0 +1,85 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+.egg-info/
+.tox/
+build/
+dist/
+develop-eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+.installed.txt
+*.egg
+
+# Django stuff:
+*.log
+*.pot
+*.sqlite3
+local_settings.py
+db.sqlite3  # if you are using sqlite3
+media/ # If you don't want to track uploaded media
+static/ # if you don't want to track static files
+/staticfiles/ # if using collectstatic
+/mediafiles/ # if using collectstatic
+
+# Environments
+.env
+.venv
+
+# IDEs and editors:
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+.vscode/
+*.tmproj
+*.pydevproject
+.ropeproject
+.sourcetreeignore
+
+# OS generated files:
+.DS_Store
+Thumbs.db
+
+# Other files you might want to ignore:
+secrets.json
+config.ini
+config.yaml
+*.ini # if you have other ini files with settings
+*.yaml # if you have other yaml files with settings
+*.json # if you have other json files with settings
+*.sql # if you have sql files with sensitive info
+*.csv # if you have csv files with sensitive info
+
+# Large files (if you're not using Git LFS)
+*.zip
+*.tar.gz
+*.7z
+*.rar
+*.pdf
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.mp4
+*.avi
+*.mov
+
+# Coverage data
+.coverage
+coverage.xml
